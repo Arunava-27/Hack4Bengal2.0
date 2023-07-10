@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import axios from "axios"
 import { IoMdNotifications } from "react-icons/io";
 import Notification from "../../components/notification/notification";
 import Dropdown from "../../components/Dropdown/Dropdown";
@@ -9,6 +10,7 @@ import Calender from "react-calendar";
 import RadialChart from "../../components/RadialChart/RadialChart";
 import StatisticsChart from "../../components/StatisticsChart/StatisticsChart";
 import "react-calendar/dist/Calendar.css";
+import Pulse from "../../components/Pulse/Pulse";
 
 function Dashboard() {
   const date = new Date();
@@ -16,6 +18,20 @@ function Dashboard() {
   const [selectedMonth, setSelectedMonth] = React.useState(date.getMonth());
   const [selectedYear, setSelectedYear] = React.useState(date.getFullYear());
   const [openNotification, setOpenNotification] = React.useState(false);
+  const [sensorData, setSensorData] = React.useState([])
+  const [sensorData1, setSensorData1] = React.useState([])
+
+
+  useEffect(() => {
+    axios.get("http://34.172.160.240:3001/api/v1/sensor-data").then((res) => {
+      setSensorData(res.data.data[0].pulse)
+      setSensorData1(res.data.data[0].sp02)
+      console.log(res.data.data[0].pulse);
+    })
+  }, [])
+
+
+
 
   const handleDateChange = (date) => {
     setSelectedDate(date.getDate());
@@ -23,20 +39,7 @@ function Dashboard() {
     setSelectedYear(date.getFullYear());
   };
 
-  // const handleMonthChange = (month) => {
-  //   setSelectedMonth(month);
-  // };
 
-  // const handleYearChange = (year) => {
-  //   setSelectedYear(year);
-  // };
-
-  // const handleTodayClick = () => {
-  //   const date = new Date();
-  //   setSelectedDate(date.getDate());
-  //   setSelectedMonth(date.getMonth());
-  //   setSelectedYear(date.getFullYear());
-  // };
 
   const value = new Date(selectedYear, selectedMonth, selectedDate);
 
@@ -107,37 +110,42 @@ function Dashboard() {
             <div className="flex justify-between gap-3 h-40 mt-1">
               <div className=" w-1/3 bg-white shadow-[4px_-4px_10px_#6527be69] rounded-lg p-4">
                 <div className="flex justify-center items-center bg-[#FFDEDE] w-12 h-12 rounded-lg">
-                  <img src="/Vector.svg" alt="" />
+                  <img src="/Vector.svg" alt=""/>
                 </div>
+                <div className="flex justify-center items-center text-5xl font-semibold text-gray-700">{sensorData}</div>
               </div>
               <div className=" w-1/3 bg-white shadow-[4px_-4px_10px_#6527be69] rounded-lg p-4">
                 <div className="flex justify-center items-center bg-[#FFDEDE] w-12 h-12 rounded-lg">
                   <img src="/blood-drop.svg" alt="" />
                 </div>
+                <div className="flex justify-center items-center text-5xl font-semibold text-gray-700">{sensorData1}</div>
               </div>
               <div className=" w-1/3 bg-white shadow-[4px_-4px_10px_#6527be69] rounded-lg p-4">
                 <div className="flex justify-center items-center bg-[#FFDEDE] w-12 h-12 rounded-lg">
                   <AiFillHeart size={40} className=" text-orange-600" />
                 </div>
+                <div className="flex justify-center items-center text-5xl font-semibold text-gray-700">{sensorData1}</div>
               </div>
             </div>
-            <div className="flex justify-between gap-3 mt-1">
+            <div className="flex gap-3 mt-1">
               <div className="flex flex-col w-2/4 gap-3">
-                <div className="h-fit bg-white shadow-[4px_-4px_10px_#6527be69] rounded-xl">
-                  {/* <WaveChart/> */}
-                  <img src="/crt.png" alt="" className="w-full h-28" />
+                <div className="-mt-44 w-[472px]">
+                  <Pulse />
                 </div>
                 <div className="h-28 bg-white shadow-[4px_-4px_10px_#6527be69] rounded-lg flex justify-between absolute mt-32 w-[472px]">
-                <div className="w-full h-full flex justify-center items-center">
-                  <p>
-                    <span className=" text-lg font-semibold text-violet-700">Overall Health Score</span> <br /> <span>80%</span>
-                  </p>
-                </div>
+                  <div className="w-full h-full flex justify-center items-center">
+                    <p>
+                      <span className=" text-lg font-semibold text-violet-700">
+                        Overall Health Score
+                      </span>{" "}
+                      <br /> <span>80%</span>
+                    </p>
+                  </div>
                   <RadialChart />
                 </div>
               </div>
               <div className="w-2/4 bg-white h-60 shadow-[4px_-4px_10px_#6527be69] rounded-lg">
-                <StatisticsChart/>
+                <StatisticsChart />
               </div>
             </div>
           </div>

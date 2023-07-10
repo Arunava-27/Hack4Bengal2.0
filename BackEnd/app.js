@@ -6,7 +6,7 @@ const rateLimit = require("express-rate-limit");
 const fs = require('fs');
 require('./connection/database')
 
-
+const host = '0.0.0.0'
 const routes = require('./routes/route')
 
 const limiter = rateLimit({
@@ -18,6 +18,7 @@ const limiter = rateLimit({
 dotenv.config()
 app.use(cors())
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }));
 app.use(limiter);
 
 
@@ -28,6 +29,6 @@ app.get('/', (req, res) => {
 app.use('/api/v1', routes);
 
 const PORT = process.env.PORT || 5000
-app.listen(PORT, () =>
+app.listen(PORT, host, () =>
   console.log(`Server started in ${process.env.NODE_ENV} on port ${PORT}`)
 )

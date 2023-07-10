@@ -19,7 +19,8 @@
     "express-rate-limit": "^6.7.0",
     "fs": "^0.0.1-security",
     "jsonwebtoken": "^9.0.0",
-    "mongoose": "^7.0.4",
+    "mongoose": "^7.3.2",
+    "mqtt": "^4.3.7",
     "nodemon": "^2.0.22"
   }
 }

@@ -1,73 +1,61 @@
 const mongoose = require('mongoose')
+// const bcrypt = require('bcrypt')
+// import jwt from "jsonwebtoken";
 
 const userSchema = new mongoose.Schema({
-  name: {
+  email: {
     type: String,
     required: true,
-    max: 50,
+    unique: true
   },
-  password:{
+  password: {
     type: String,
-    required: true,
+    required: true
   },
-  role:{
-    type: String,
-    default: 'user101',
-  },
-  createdAt: {
-    type: Date,
-    default: new Date(),
-  },
-})
 
+});
 
 const patientSchema = new mongoose.Schema({
-  First_Name: {
+  fname: {
     type: String,
-    required: true,
     max: 50,
   },
-  Last_Name:{
+  lname: {
     type: String,
-    required: true,
     max: 50,
   },
-  Age: {
+  age: {
     type: Number,
-    required: true,
   },
-  Sex: {
+  sex: {
     type: String,
-    required: true,
     max: 10,
   },
-  Weight:{
+  weight: {
     type: Number,
-    required: true,
   },
-  Height:{
+  height: {
     type: Number,
-    required: true,
   },
-  Mobile:{
+  mobile: {
     type: String,
-    required: true,
-    max: 12,
+    max: 10,
   },
-  Patient_Guardian_name:{
+  pgname: {
     type: String,
-    required: true,
     max: 100,
   },
-  Address:{
+  address: {
     type: String,
-    required: true,
     max: 300,
   },
-  Blood_Group:{
+  bloodgroup: {
     type: String,
-    required: true,
     max: 5,
+  },
+  checkbox: {
+    type: Boolean,
+    default: true
   },
   createdAt: {
     type: Date,
@@ -76,6 +64,114 @@ const patientSchema = new mongoose.Schema({
 })
 
 
+// userSchema.pre('save', function (next) {
+//     const user = this;
+//     const salt = bcrypt.genSaltSync(9);
+//     const encryptedPassword = bcrypt.hashSync(user.password, salt)
+//     user.password = encryptedPassword;
+//     next();
+// })
 
-module.exports = mongoose.model('user', userSchema)
-module.exports = mongoose.model('patients', patientSchema)
+// userSchema.methods.comparePassword = function compare(password) {
+//     const user = this;
+//     return bcrypt.compareSync(password, user.password)
+// }
+
+// userSchema.methods.genJWT = function generate() {
+//     return jwt.sign({
+//         id: this._id,
+//         email: this.email
+//     }, 'twitter_secret', {
+//         expiresIn: '2h'
+//     })
+
+// }
+
+const User = mongoose.model('User', userSchema);
+const Patient = mongoose.model('Patient', patientSchema);
+
+module.exports = {
+  User,
+  Patient
+}
+// const mongoose = require('mongoose')
+
+// const userSchema = new mongoose.Schema({
+//   email: {
+//     type: String,
+//     required: true,
+//     max: 50,
+//   },
+//   password:{
+//     type: String,
+//     required: true,
+//   },
+//   role:{
+//     type: String,
+//     default: 'user101',
+//   },
+//   createdAt: {
+//     type: Date,
+//     default: new Date(),
+//   },
+// })
+
+
+// const patientSchema = new mongoose.Schema({
+//   First_Name: {
+//     type: String,
+//     required: true,
+//     max: 50,
+//   },
+//   Last_Name:{
+//     type: String,
+//     required: true,
+//     max: 50,
+//   },
+//   Age: {
+//     type: Number,
+//     required: true,
+//   },
+//   Sex: {
+//     type: String,
+//     required: true,
+//     max: 10,
+//   },
+//   Weight:{
+//     type: Number,
+//     required: true,
+//   },
+//   Height:{
+//     type: Number,
+//     required: true,
+//   },
+//   Mobile:{
+//     type: String,
+//     required: true,
+//     max: 12,
+//   },
+//   Patient_Guardian_name:{
+//     type: String,
+//     required: true,
+//     max: 100,
+//   },
+//   Address:{
+//     type: String,
+//     required: true,
+//     max: 300,
+//   },
+//   Blood_Group:{
+//     type: String,
+//     required: true,
+//     max: 5,
+//   },
+//   createdAt: {
+//     type: Date,
+//     default: new Date(),
+//   },
+// })
+
+
+
+// module.exports = mongoose.model('user', userSchema)
+// module.exports = mongoose.model('patients', patientSchema)

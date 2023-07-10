@@ -1,6 +1,11 @@
 import React from "react";
 
 function Login() {
+
+  const handleclick = () => {
+    window.location.href = "/app/dash-board";
+  };
+
   return (
     <div className="bg-[#e6e7ffb2] w-screen h-screen flex">
       <div className="w-full flex items-center">
@@ -37,7 +42,7 @@ function Login() {
             </div>
             <div className="flex flex-col justify-center items-center gap-16  mt-20">
               <div className="flex flex-row justify-center w-full">
-                <button className="bg-[#45cfdd] h-[61px] fixed w-[181px] rounded-[10px]">
+                <button className="bg-[#45cfdd] h-[61px] fixed w-[181px] rounded-[10px]" onClick={handleclick}>
                   <span className="text-[#6527be] text-2xl font-medium h-[29px] text-center w-[148px]">Sign In</span>
                 </button>
               </div>
